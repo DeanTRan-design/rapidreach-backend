@@ -116,6 +116,7 @@ router.put("/:id/avatar", upload.single("avatar"), async (req, res) => {
 
         return res.status(200).json({
             message: "Avatar uploaded successfully",
+            avatarURL: "https://rapidreach-backend-guki.onrender.com/uploads/${filename}",
             user,
         });
     } catch (err) {
