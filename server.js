@@ -40,6 +40,12 @@ app.use("/user", userRouter)
 const authRouter = require ("./routes/auth")
 app.use("/auth", authRouter)
 
+// Create uploads folder if it doesn't exist (on Render)
+const uploadsDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
+
 // run app (listen on port)-----------------------------------
 app.listen(port, () => {
     console.log("App is running on port", port)
