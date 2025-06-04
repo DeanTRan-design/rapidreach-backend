@@ -1,7 +1,7 @@
 // User routes
 require("dotenv").config()
 const express = require("express")
-const Utils = require("../Utils")
+const {utils} = require("../Utils")
 const router = express.Router()
 const User = require("./../models/User")
 const jwt = require('jsonwebtoken');
@@ -24,7 +24,7 @@ router.post('/signin', (req, res) => {
             })
          }
          // 3. user exist (must exist)
-         if(Utils.verifyPassword(req.body.password, user.password) ){
+         if(utils.verifyPassword(req.body.password, user.password) ){
             // 4. password verify
             const userObject = {
                id: user._id,
@@ -33,7 +33,7 @@ router.post('/signin', (req, res) => {
                email: user.email
             }
             // 5. generate accessToken
-            const accessToken = Utils.generateAccessToken(userObject)
+            const accessToken = utils.generateAccessToken(userObject)
             // 6. send back respose with accessToken and user object
             res.json({
                accessToken: accessToken,

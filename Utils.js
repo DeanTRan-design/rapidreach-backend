@@ -7,7 +7,7 @@ const sharp = require("sharp");
 const path = require("path");
 
 // Utils class
-class Utils {
+class utils {
 
     // take the passwords and hashes it (encrypts)
     hashPassword(password) {
@@ -46,7 +46,7 @@ const upload = multer({
 
 // Export utils, multer, and sharp
 module.exports = {
-  utils: new Utils(),
+  utils: new utils(),
   upload,
   sharp,
 };
