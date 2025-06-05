@@ -53,7 +53,7 @@ if (!fs.existsSync(uploadsDir)) {
 
 // run app (listen on port)-----------------------------------
 app.listen(port, () => {
-    console.log("App is running on port", port)
+    console.log("App is running on port", port);
 })
 
 // http://localhost:3000
