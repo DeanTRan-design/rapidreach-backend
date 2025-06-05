@@ -17,6 +17,7 @@ function verifyToken(req, res, next) {
 }
 
 router.post("/", verifyToken, async (req, res) => {
+  console.log("Decoded token:", req.user);
   try {
     const report = new Report({
       userId: req.user._id,
@@ -32,7 +33,5 @@ router.post("/", verifyToken, async (req, res) => {
     return res.status(500).json({ message: "Failed to save report", error: err });
   }
 });
-
-console.log("Decoded token:", req.user);
 
 module.exports = router;
