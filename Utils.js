@@ -25,7 +25,7 @@ class utils {
     }
 
     generateAccessToken(user){
-        return jwt.sign({user: user}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '30 mins'})
+        return jwt.sign({_id: user._id}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '30 mins'})
     }
 }
 
