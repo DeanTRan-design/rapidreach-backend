@@ -9,9 +9,9 @@ function verifyToken(req, res, next) {
   if (!authHeader) return res.status(401).json({ message: "No token" });
 
   const token = authHeader.split(" ")[1];
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, userData) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
     if (err) return res.status(403).json({ message: "Token invalid" });
-    req.user = userData.user;
+    req.user = decoded;
     next();
   });
 }
@@ -32,5 +32,7 @@ router.post("/", verifyToken, async (req, res) => {
     return res.status(500).json({ message: "Failed to save report", error: err });
   }
 });
+
+console.log("Decoded token:", req.user);
 
 module.exports = router;
