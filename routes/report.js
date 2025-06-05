@@ -1,0 +1,35 @@
+const express = require("express");
+const router = express.Router();
+const Report = require("../models/Report"); // create this model
+const jwt = require("jsonwebtoken");
+
+// Middleware to verify token
+function verifyToken(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ message: "No token" });
+
+  const token = authHeader.split(" ")[1];
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, userData) => {
+    if (err) return res.status(403).json({ message: "Token invalid" });
+    req.user = userData.user;
+    next();
+  });
+}
+
+router.post("/", verifyToken, async (req, res) => {
+  try {
+    const report = new Report({
+      userId: req.user._id,
+      location: req.body.location,
+      category: req.body.category,
+      message: req.body.message,
+    });
+
+    const saved = await report.save();
+    return res.status(201).json(saved);
+  } catch (err) {
+    return res.status(500).json({ message: "Failed to save report", error: err });
+  }
+});
+
+module.exports = router;

@@ -42,6 +42,10 @@ app.use("/user", userRouter)
 const authRouter = require ("./routes/auth")
 app.use("/auth", authRouter)
 
+// report
+const reportRouter = require("./routes/report");
+app.use("/report", reportRouter)
+
 // Create uploads folder if it doesn't exist (on Render)
 const uploadsDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadsDir)) {
