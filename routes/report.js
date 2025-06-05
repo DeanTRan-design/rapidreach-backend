@@ -28,6 +28,7 @@ router.post("/", verifyToken, async (req, res) => {
     const saved = await report.save();
     return res.status(201).json(saved);
   } catch (err) {
+    console.error("Failed to save report:", err); 
     return res.status(500).json({ message: "Failed to save report", error: err });
   }
 });
