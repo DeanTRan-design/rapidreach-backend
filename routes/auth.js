@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 // POST /auth/signin ------------------
 router.post('/signin', (req, res) => {
    // 1. validate request
+   console.log("Sign-in attempt:", req.body);
    if( !req.body.email || !req.body.password){
       return res.status(400).json({
          message: "Please provide email and password"
@@ -27,7 +28,7 @@ router.post('/signin', (req, res) => {
          if(utils.verifyPassword(req.body.password, user.password) ){
             // 4. password verify
             const userObject = {
-               id: user._id,
+               _id: user._id,
                firstName: user.firstName,
                lastName: user.lastName,
                email: user.email
