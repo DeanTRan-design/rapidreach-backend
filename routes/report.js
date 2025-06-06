@@ -34,4 +34,16 @@ router.post("/", verifyToken, async (req, res) => {
   }
 });
 
+// GET - Get all reports for the logged-in user
+router.get("/", verifyToken, async (req, res) => {
+  try {
+    // Only get reports created by this user
+    const reports = await Report.find({ userId: req.user._id }).sort({ createdAt: -1 });
+    return res.json(reports);
+  } catch (err) {
+    console.error("Failed to fetch reports:", err);
+    return res.status(500).json({ message: "Could not fetch reports", error: err });
+  }
+});
+
 module.exports = router;
