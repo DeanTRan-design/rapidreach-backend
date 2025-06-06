@@ -31,7 +31,8 @@ router.post('/signin', (req, res) => {
                _id: user._id,
                firstName: user.firstName,
                lastName: user.lastName,
-               email: user.email
+               email: user.email,
+               accessLevel: user.accessLevel
             }
             // 5. generate accessToken
             const accessToken = utils.generateAccessToken(userObject)
