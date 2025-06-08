@@ -37,7 +37,7 @@ router.post("/", verifyToken, async (req, res) => {
 // GET - View only the current user's own reports (regardless of role)
 router.get("/", verifyToken, async (req, res) => {
   try {
-    const reports = await Report.find({ userId: req.user._id }).sort({ createdAt: -1 });
+    const reports = await Report.find().populate("userId", "firstName lastName email").sort({ createdAt: -1 });
     return res.json(reports);
   } catch (err) {
     console.error("Failed to fetch personal reports:", err);
@@ -53,7 +53,7 @@ router.get("/all", verifyToken, async (req, res) => {
       return res.status(403).json({ message: "Access denied: only responders can view all reports." });
     }
 
-    const reports = await Report.find().sort({ createdAt: -1 });
+    const reports = await Report.find().populate("userId", "firstName lastName email").sort({ createdAt: -1 });
     return res.json(reports);
   } catch (err) {
     console.error("Failed to fetch all reports:", err);
