@@ -61,4 +61,25 @@ router.get("/all", verifyToken, async (req, res) => {
   }
 });
 
+router.delete("/:id", verifyToken, async (req, res) => {
+  try {
+    if (req.user.accessLevel !== 2) {
+      return res.status(403).json({ message: "Only responders can delete reports." });
+    }
+
+    console.log("Attempting to delete report ID:", req.params.id);
+
+    const deleted = await Report.findByIdAndDelete(req.params.id);
+    if (!deleted) {
+      console.log("No report found for this ID");
+      return res.status(404).json({ message: "Report not found" });
+    }
+
+    return res.status(200).json({ message: "Report deleted successfully." });
+  } catch (err) {
+    console.error("Error deleting report:", err);
+    return res.status(500).json({ message: "Failed to delete report" });
+  }
+});
+
 module.exports = router;
