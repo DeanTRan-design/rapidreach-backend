@@ -34,23 +34,30 @@ router.post("/", verifyToken, async (req, res) => {
   }
 });
 
-// GET - View reports (based on user role)
+// GET - View only the current user's own reports (regardless of role)
 router.get("/", verifyToken, async (req, res) => {
   try {
-    let reports;
-
-    if (req.user.accessLevel === 2) {
-      // Responders see all reports
-      reports = await Report.find().sort({ createdAt: -1 });
-    } else {
-      // Patients see only their own reports
-      reports = await Report.find({ userId: req.user._id }).sort({ createdAt: -1 });
-    }
-
+    const reports = await Report.find({ userId: req.user._id }).sort({ createdAt: -1 });
     return res.json(reports);
   } catch (err) {
-    console.error("Failed to fetch reports:", err);
+    console.error("Failed to fetch personal reports:", err);
     return res.status(500).json({ message: "Could not fetch reports", error: err });
+  }
+});
+
+// GET - View all reports (Responders only)
+router.get("/all", verifyToken, async (req, res) => {
+  try {
+    if (req.user.accessLevel !== 2) {
+      // Deny access if the user is not a responder
+      return res.status(403).json({ message: "Access denied: only responders can view all reports." });
+    }
+
+    const reports = await Report.find().sort({ createdAt: -1 });
+    return res.json(reports);
+  } catch (err) {
+    console.error("Failed to fetch all reports:", err);
+    return res.status(500).json({ message: "Could not fetch all reports", error: err });
   }
 });
 
