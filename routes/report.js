@@ -39,7 +39,7 @@ router.get("/", verifyToken, async (req, res) => {
   try {
     let reports;
 
-    if (req.user.accessLevel === "2") {
+    if (req.user.accessLevel === 2) {
       // Responders see all reports
       reports = await Report.find().sort({ createdAt: -1 });
     } else {
@@ -47,18 +47,6 @@ router.get("/", verifyToken, async (req, res) => {
       reports = await Report.find({ userId: req.user._id }).sort({ createdAt: -1 });
     }
 
-    return res.json(reports);
-  } catch (err) {
-    console.error("Failed to fetch reports:", err);
-    return res.status(500).json({ message: "Could not fetch reports", error: err });
-  }
-});
-
-// GET - Get all reports for the logged-in user
-router.get("/", verifyToken, async (req, res) => {
-  try {
-    // Only get reports created by this user
-    const reports = await Report.find({ userId: req.user._id }).sort({ createdAt: -1 });
     return res.json(reports);
   } catch (err) {
     console.error("Failed to fetch reports:", err);
