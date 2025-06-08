@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    dob: {
+        type: String,
+        require: true
+    },
     email: {
         type: mongoose.SchemaTypes.Email,
         required: true
@@ -25,6 +29,10 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    city: {
+        type: String,
+        require: true
     },
     avatar: { 
         type: String,

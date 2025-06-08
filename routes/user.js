@@ -62,9 +62,11 @@ router.post('/', async (req, res) => {
             const newUser = new User({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
+                dob: req.body.dob,
+                city: req.body.city,
                 email: req.body.email,
                 accessLevel: req.body.accessLevel,
-                password: req.body.password,
+                password: utils.hashPassword(req.body.password)
             })
 
             // save newUser document to database
