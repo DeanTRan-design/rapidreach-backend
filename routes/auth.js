@@ -27,7 +27,6 @@ router.post('/signin', (req, res) => {
          // 3. user exist (must exist)
          if(utils.verifyPassword(req.body.password, user.password) ){
             // 4. password verify
-            console.log("Login user full object:", user);
             const userObject = {
                _id: user._id,
                firstName: user.firstName,
